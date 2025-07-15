@@ -6,33 +6,22 @@ import org.junit.jupiter.api.Test;
 
 class LongestCommonPrefix14Test {
     private String longestCommonPrefix(String[] strs) {
-        String result = "";
-
-        if (strs.length <= 1) {
+        if (strs.length == 0)
+            return "";
+        if (strs.length == 1)
             return strs[0];
-        }
 
         String baseString = strs[0];
 
         for (int i = 0; i < baseString.length(); i++) {
-            int success = 1;
-
             for (int x = 1; x < strs.length; x++) {
-                String target = strs[x];
-                if (i >= target.length() || baseString.charAt(i) != target.charAt(i)) {
-                    success = 0;
-                    break;
+                if (i >= strs[x].length() || baseString.charAt(i) != strs[x].charAt(i)) {
+                    return baseString.substring(0, i);
                 }
-            }
-
-            if (success == 1) {
-                result += baseString.charAt(i);
-            } else {
-                break;
             }
         }
 
-        return result;
+        return baseString;
     }
 
     @Test
