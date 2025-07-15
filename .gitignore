@@ -3,6 +3,7 @@ application-default.yml
 *~
 .DS_Store
 
+bin/
 build/
 .idea
 .gradle
