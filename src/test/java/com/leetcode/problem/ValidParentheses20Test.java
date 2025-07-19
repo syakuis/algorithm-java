@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Stack;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,31 +14,33 @@ class ValidParentheses20Test {
             return false;
         }
 
-        List<Character> opened = List.of('(', '{', '[');
-        List<Character> closed = List.of(')', '}', ']');
+        Stack<Character> store = new Stack<>();
+        List<Character> open = List.of('(', '{', '[');
+        List<Character> close = List.of(')', '}', ']');
 
-        for (int i = 0, x = s.length() - 1; i < s.length(); i++, x--) {
-            char left = s.charAt(i);
-            int index = opened.indexOf(left);
-            if (i == 0 && index == -1) {
+        for (int i = 0; i < s.length(); i++) {
+            char item = s.charAt(i);
+            int opened = open.indexOf(item);
+
+            if (i == 0 && opened == -1) {
                 return false;
             }
-            if (index == -1) {
-                continue;
-            }
 
-            char closedBracket = closed.get(index);
-
-            char right = x > i ? s.charAt(x) : '\0';
-            char leftNext = s.length() > (i + 1) ? s.charAt(i + 1) : '\0';
-
-            if ((leftNext != '\0' && closedBracket == leftNext) || ( right != '\0'  && closedBracket == right)) {
-                continue;
+            if (opened > -1) {
+                store.push(item);
             } else {
-                return false;
+                if (store.isEmpty()) return false;
+
+                char openedBracket = store.pop();
+                char closedBracket = close.get(open.indexOf(openedBracket));
+
+                if (closedBracket != item) {
+                    return false;
+                }
             }
         }
-        return true;
+
+        return store.isEmpty();
     }
 
     @Test
@@ -49,5 +52,7 @@ class ValidParentheses20Test {
         assertFalse(isValid("(}{)"));
         assertFalse(isValid("(])"));
         assertFalse(isValid("([}}])"));
+        assertTrue(isValid("(([]){})"));
+        assertFalse(isValid("(){}}{"));
     }
 }
