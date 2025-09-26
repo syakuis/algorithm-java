@@ -1,7 +1,3 @@
-# Coding Test
+# Algorithm
 
-## Gradle
-
-```
-./gradlew --refresh-dependencies
-```
+https://leetcode.com/u/syaku/
