@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class RemoveDuplicatesFromSortedArray26Test {
+
     // 느린과 빠른을 한칸식 이동하면서 고유한 값을 찾아 배열을 재정렬하면서 탐색한다.
     int removeDuplicates(int[] nums) {
 
@@ -24,7 +26,7 @@ class RemoveDuplicatesFromSortedArray26Test {
                 nums[slow] = nums[fast];
                 result++;
                 fast++;
-            // 같으면 빠른만 이동
+                // 같으면 빠른만 이동
             } else {
                 fast++;
             }
@@ -35,7 +37,7 @@ class RemoveDuplicatesFromSortedArray26Test {
 
     @Test
     void testa() {
-        assertEquals(2, removeDuplicates(new int[]{1,1,2}));
-        assertEquals(5, removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+        assertEquals(2, removeDuplicates(new int[]{1, 1, 2}));
+        assertEquals(5, removeDuplicates(new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}));
     }
 }
