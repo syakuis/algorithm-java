@@ -8,34 +8,25 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 // https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
 class RemoveDuplicatesFromSortedList83Test {
     ListNode deleteDuplicates(ListNode head) {
-        if (head == null) {
-            return null;
-        }
-
-        if (head.next == null) {
+        if (head == null || head.next == null) {
             return head;
         }
 
-        ListNode nHead = new ListNode();
-        ListNode nTarget = new ListNode(head.val);
-        nHead.next = nTarget;
+        // 더미에 노드를 백업하여 노드가 이동되지 않게 시작 포인터를 유지한다.
+        ListNode dummy = head;
 
-        int x = head.val;
-
-        while (head != null) {
-            System.out.println(head.val);
-            if (x != head.val) {
-                System.out.println("생성");
-                x = head.val;
-                ListNode a = nTarget;
-                a.next = new ListNode(x);
-                nTarget = a.next;
+        while (head != null && head.next != null) {
+            // 현재 노드와 다음 노드 값이 같으면
+            if (head.val == head.next.val) {
+                // 다음 노드를 다음 다음 노드로 대체하고 중복된 노드를 제거한다
+                head.next = head.next.next;
+            } else {
+                // 다음 노드로 이동한다.
+                head = head.next;
             }
-
-            head = head.next;
         }
 
-        return nHead.next;
+        return dummy;
     }
 
     @Test
