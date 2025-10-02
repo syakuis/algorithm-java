@@ -2,8 +2,8 @@ package com.leetcode.problem.linkedlist;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /*
 [요약]
@@ -19,58 +19,46 @@ import java.util.List;
 가장 낮은 자릿수부터 계산한다.
 재귀함수를 사용하면 마지막 노드부터 처리할 수 있다. 하지만 길이가 다른 두 노드는 마지막 노드가 없을 수 있다.
 각 연결 리스트의 값을 배열에 저장하고 역순으로 계산한다. 합이 10이상인 경우 올림을 하기위해 역순으로 처리한다.
-역순으로 계산한 값을 노드 안쪽부터 넣을 수 없다.
-계산한 값을 배열에 담고 역순으로 노드를 이동하면서 기록한다.
+역순으로 계산한 값을 노드 안쪽부터 역순으로 처리한다.
  */
 class AddTwoNumbersII445Test extends AbstractLinkedList {
     ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
-        List<Integer> a1 = new ArrayList<>();
-        List<Integer> a2 = new ArrayList<>();
+        // stack(LIFO) 으로 역순으로 꺼내온다. 동기화때문에 느리다.
+        // deque(LIFO, FIFO) 로 동기화가 없는 구현체 사용. 스택과 큐(FIFO) 모두 사용할 수있다.
+        Deque<Integer> a1 = new ArrayDeque<>();
+        Deque<Integer> a2 = new ArrayDeque<>();
 
         while (l1 != null || l2 != null) {
             int num1 = l1 != null ? l1.val : -1;
             int num2 = l2 != null ? l2.val : -1;
 
-            if (l1 != null) a1.add(num1);
-            if (l2 != null) a2.add(num2);
+            if (l1 != null) a1.push(num1);
+            if (l2 != null) a2.push(num2);
 
             l1 = l1 != null && l1.next != null ? l1.next : null;
             l2 = l2 != null && l2.next != null ? l2.next : null;
         }
 
-        int i1 = a1.size() - 1;
-        int i2 = a2.size() - 1;
         int carry = 0;
-
-        List<Integer> r = new ArrayList<>();
-
-        ListNode dummy = new ListNode(0);
-        ListNode current = dummy;
+        ListNode result = null;
 
         // carry 마지막 올림수가 있는 경우 계산하기 위해 조건을 추가한다.
-        while (i1 >= 0 || i2 >= 0 || carry != 0) {
-            int num1 = i1 >= 0 ? a1.get(i1) : 0;
-            int num2 = i2 >= 0 ? a2.get(i2) : 0;
+        while (!a1.isEmpty() || !a2.isEmpty() || carry != 0) {
+            int num1 = a1.isEmpty() ? 0 : a1.pop();
+            int num2 = a2.isEmpty() ? 0 : a2.pop();
 
             int sum = num1 + num2 + carry;
             // 올림수를 기록한다.
-            carry = sum >= 10 ? 1 : 0;
+            carry = sum / 10;
 
             // 나머지 값을 구한다.
-            r.add(sum % 10);
-
-            i1--;
-            i2--;
+            ListNode n = new ListNode(sum % 10);
+            n.next = result;
+            result = n;
         }
 
-        System.out.println(r);
-
-        for (int i = r.size() - 1; i >= 0; i--) {
-            current.next = new ListNode(r.get(i));
-            current = current.next;
-        }
-        return dummy.next;
+        return result;
     }
 
     @Test
