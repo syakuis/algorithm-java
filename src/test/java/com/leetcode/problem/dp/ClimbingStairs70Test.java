@@ -1,4 +1,4 @@
-package com.leetcode.problem;
+package com.leetcode.problem.dp;
 
 import org.junit.jupiter.api.Test;
 

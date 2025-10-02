@@ -1,12 +1,9 @@
-package com.leetcode.problem;
+package com.leetcode.problem.linkedlist;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 // https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
-class RemoveDuplicatesFromSortedList83Test {
+class RemoveDuplicatesFromSortedList83Test extends AbstractLinkedList {
     ListNode deleteDuplicates(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -48,33 +45,6 @@ class RemoveDuplicatesFromSortedList83Test {
         ListNode expected = new ListNode(1);
         ListNode data = new ListNode(1, new ListNode(1));
         assertLinkedListEquals(expected, deleteDuplicates(data));
-    }
-
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        public ListNode() {
-        }
-
-        public ListNode(int val) {
-            this.val = val;
-        }
-
-        public ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
-
-    private void assertLinkedListEquals(ListNode expected, ListNode actual) {
-        while (expected != null && actual != null) {
-            assertEquals(expected.val, actual.val);
-            expected = expected.next;
-            actual = actual.next;
-        }
-        assertNull(expected);
-        assertNull(actual);
     }
 }
 
