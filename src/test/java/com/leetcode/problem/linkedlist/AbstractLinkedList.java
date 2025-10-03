@@ -14,6 +14,13 @@ public abstract class AbstractLinkedList {
         assertNull(actual);
     }
 
+    protected void println(ListNode head) {
+        while (head != null) {
+            System.out.println(head.val);
+            head = head.next;
+        }
+    }
+
     protected ListNode listNodeOf(Integer... values) {
         ListNode node = new ListNode();
         ListNode dummy = node;
